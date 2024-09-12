@@ -1,5 +1,5 @@
-from .serializers import LoteSerializer, ProdutoSerializer, FornecedorSerializer, ClienteSerializer, ItemVendaSerializer, EstoqueMovimentacaoSerializer
-from .models import Lote, Produto, Fornecedor, Cliente, ItemVenda, EstoqueMovimentacao
+from .serializers import LoteSerializer, ProdutoSerializer, FornecedorSerializer, ClienteSerializer, ItemVendaSerializer, EstoqueMovimentacaoSerializer, VendaSerializer
+from .models import Lote, Produto, Fornecedor, Cliente, ItemVenda, EstoqueMovimentacao, Venda
 from rest_framework import generics
 
 
@@ -11,6 +11,14 @@ class LoteListCreate(generics.ListCreateAPIView):
 class ProdutoListCreate(generics.ListCreateAPIView):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
+    
+class VendaListCreate(generics.ListCreateAPIView):
+    queryset = Venda.objects.all()
+    serializer_class = VendaSerializer
+    
+class VendaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Venda.objects.all()
+    serializer_class = VendaSerializer
 
 
 class FornecedorListCreate(generics.ListCreateAPIView):

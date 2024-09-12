@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import LoteListCreate, LoteRetrieveUpdateDestroy, ProdutoListCreate, FornecedorListCreate, ItemVendaListCreate, EstoqueMovimentacaoListCreate,\
-     ClienteListCreate, ProdutoRetrieveUpdateDestroy, FornecedorRetrieveUpdateDestroy, ClienteRetrieveUpdateDestroy, ItemVendaRetrieveUpdateDestroy, EstoqueMovimentacaoRetrieveUpdateDestroy, LoteRetrieveUpdateDestroy 
+     ClienteListCreate, ProdutoRetrieveUpdateDestroy, FornecedorRetrieveUpdateDestroy, ClienteRetrieveUpdateDestroy, ItemVendaRetrieveUpdateDestroy, EstoqueMovimentacaoRetrieveUpdateDestroy, LoteRetrieveUpdateDestroy, \
+    VendaListCreate, VendaRetrieveUpdateDestroy
 
 
 urlpatterns = [
@@ -16,4 +17,6 @@ urlpatterns = [
     path('itemvenda/<int:pk>', ItemVendaRetrieveUpdateDestroy.as_view(), name='itemvenda-retrieve'),
     path('estoquemovimentacao/', EstoqueMovimentacaoListCreate.as_view(), name='estoquemovimentacao-list-create'),
     path('estoquemovimentacao/<int:pk>', EstoqueMovimentacaoRetrieveUpdateDestroy.as_view(), name='estoquemovimentacao-retrieve'),
+    path('vendas/', VendaListCreate.as_view(), name='vendas-list-create'),
+    path('vendas/<int:pk>', VendaRetrieveUpdateDestroy.as_view(), name='cliente-retrieve'),
 ]

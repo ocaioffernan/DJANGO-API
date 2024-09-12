@@ -1,9 +1,10 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class Fornecedor(models.Model):
     razaoSocial = models.CharField(max_length=100)
     nomeFantasia = models.CharField(max_length=100)
-    CNPJ = models.CharField(max_length=18)  # CharField para permitir pontuações
+    CNPJ = models.CharField(max_length=18, unique=True)  # CharField para permitir pontuações
     CEP = models.CharField(max_length=9)  # CharField para CEP formatado
     telefone = models.CharField(max_length=15, blank=True)  # CharField para telefones formatados
     email = models.EmailField(unique=True)
@@ -25,11 +26,19 @@ class Produto(models.Model):
     codigo_barras = models.CharField(max_length=50, blank=True, null=True)
     data_criacao = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        nome_normal = self.nome.lower() #Ajeitar erro nas palavras com acento
+        if Produto.objects.filter(nome__iexact=nome_normal).exclude(pk=self.pk).exists():
+            raise ValidationError('Produto já existe')
+
+        if self.estoque_minimo > self.estoque_maximo:
+            raise ValidationError('O valor mínimo não pode ser maior que o Estoque máximo')
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return self.nome
+        return f"{self.nome} - R${self.precoVenda}"
 
 class Lote(models.Model):
-    
     lote_produto = models.ForeignKey(Produto, on_delete=models.CASCADE, related_name='lotes')
     lote_numero = models.CharField(max_length=100, unique=True)
     data_fabricacao = models.DateField()
@@ -55,22 +64,40 @@ class Cliente(models.Model):
         return self.nome
 
 class Venda(models.Model):
+    PAGAMENTO_CHOICES = [
+        ('pix', 'Pix'),
+        ('dinheiro', 'Dinheiro'),
+        ('cartão de crédito', 'Cartão de Crédito'),
+        ('cartão de débito', 'Cartão de Débito')
+    ]
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
     data_venda = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
-    metodo_pagamento = models.CharField(max_length=50)
+    total = models.DecimalField(max_digits=10, decimal_places=2) 
+    metodo_pagamento = models.CharField(max_length=50, choices=PAGAMENTO_CHOICES)
     
     def __str__(self):
         return f"Venda {self.id} - Total: {self.total}"
 
 class ItemVenda(models.Model):
-    venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
+    venda = models.ForeignKey(Venda, related_name='itens', on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     quantidade = models.IntegerField()
-    preco_unitario = models.DecimalField(max_digits=10, decimal_places=2)
     desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2) # omitir no serializer
+    
+    def save(self, *args, **kwargs):
+        # Fazer validação do estoque
+        if self.produto.estoque_atual <= self.produto.estoque_minimo:
+            raise ValueError("Estoque insuficiente")
 
+        self.subtotal = (self.produto.precoVenda * self.quantidade) - self.desconto
+        super().save(*args, **kwargs)
+        # Atualiza o total da venda
+        self.venda.total = sum(item.subtotal for item in self.venda.itens.all())
+        self.venda.save()
+        self.produto.estoque_atual -= self.quantidade
+        self.produto.save()
+        
     def __str__(self):
         return f"Item {self.produto.nome} - Venda {self.venda.id}"
     
