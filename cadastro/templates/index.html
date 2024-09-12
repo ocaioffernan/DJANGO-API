@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROTAS API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Rotas da API</h1>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Rota</th>
+                    <th scope="col">URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Produtos</td>
+                    <td><a href="{% url 'produto-list-create' %}" class="btn btn-outline-primary">/produtos/</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Fornecedores</td>
+                    <td><a href="{% url 'fornecedores-list-create' %}" class="btn btn-outline-primary">/fornecedores/</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Clientes</td>
+                    <td><a href="{% url 'clientes-list-create' %}" class="btn btn-outline-primary">/clientes/</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>Vendas</td>
+                    <td><a href="{% url 'vendas-list-create' %}" class="btn btn-outline-primary">/vendas/</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>Lotes</td>
+                    <td><a href="{% url 'lote-list-create' %}" class="btn btn-outline-primary">/lotes/</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td>Item Venda</td>
+                    <td><a href="{% url 'itemvenda-list-create' %}" class="btn btn-outline-primary">/itemvendas/</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">7</th>
+                    <td>Estoque Movimentação</td>
+                    <td><a href="{% url 'estoquemovimentacao-list-create' %}" class="btn btn-outline-primary">/estoque_mov/</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 from .serializers import LoteSerializer, ProdutoSerializer, FornecedorSerializer, ClienteSerializer, ItemVendaSerializer, EstoqueMovimentacaoSerializer, VendaSerializer
 from .models import Lote, Produto, Fornecedor, Cliente, ItemVenda, EstoqueMovimentacao, Venda
 from rest_framework import generics
+from django.shortcuts import render
 
 
 class LoteListCreate(generics.ListCreateAPIView):
@@ -65,3 +66,6 @@ class ItemVendaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 class EstoqueMovimentacaoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = EstoqueMovimentacao.objects.all()
     serializer_class = EstoqueMovimentacaoSerializer
+
+def rotas(request):
+    return render(request, 'index.html')

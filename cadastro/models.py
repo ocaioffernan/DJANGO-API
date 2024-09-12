@@ -27,9 +27,10 @@ class Produto(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        nome_normal = self.nome.lower() #Ajeitar erro nas palavras com acento
-        if Produto.objects.filter(nome__iexact=nome_normal).exclude(pk=self.pk).exists():
-            raise ValidationError('Produto já existe')
+        if not self.pk:
+            nome_normal = self.nome.lower() 
+            if Produto.objects.filter(nome__iexact=nome_normal).exclude(pk=self.pk).exists():
+                raise ValidationError('Produto já existe')
 
         if self.estoque_minimo > self.estoque_maximo:
             raise ValidationError('O valor mínimo não pode ser maior que o Estoque máximo')
@@ -48,10 +49,6 @@ class Lote(models.Model):
 
     def __str__(self):
         return f"Lote {self.lote_numero} - {self.lote_produto.nome}"
-
-    class Meta:
-        ordering = ['data_validade']
-        verbose_name_plural = "Lotes"
 
 class Cliente(models.Model):
     nome = models.CharField(max_length=100)
@@ -72,7 +69,7 @@ class Venda(models.Model):
     ]
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
     data_venda = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=10, decimal_places=2) 
+    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True) 
     metodo_pagamento = models.CharField(max_length=50, choices=PAGAMENTO_CHOICES)
     
     def __str__(self):
@@ -86,9 +83,8 @@ class ItemVenda(models.Model):
     subtotal = models.DecimalField(max_digits=10, decimal_places=2) # omitir no serializer
     
     def save(self, *args, **kwargs):
-        # Fazer validação do estoque
         if self.produto.estoque_atual <= self.produto.estoque_minimo:
-            raise ValueError("Estoque insuficiente")
+            raise ValidationError("Estoque insuficiente")
 
         self.subtotal = (self.produto.precoVenda * self.quantidade) - self.desconto
         super().save(*args, **kwargs)
