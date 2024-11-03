@@ -35,36 +35,28 @@ Este é um sistema de gestão de estoque e vendas desenvolvido em Django com Dja
 ### Passos para instalação
 
 1. Clone o repositório:
-
-   ```bash
-   git clone https://github.com/seuusuario/seurepositorio.git
-   cd seurepositorio
-Crie um ambiente virtual e ative-o:
-
-bash
-Copiar código
+   
+   git clone (https://github.com/ocaioffernan/DJANGO-API.git)
+   cd DJANGO-API
+   
+**##Crie um ambiente virtual e ative-o:**
 python -m venv venv
 source venv/bin/activate  # Para Linux/Mac
 venv\Scripts\activate  # Para Windows
-Instale as dependências:
 
-bash
-Copiar código
+**##Instale as dependências:**
 pip install -r requirements.txt
-Realize as migrações do banco de dados:
 
-bash
-Copiar código
+**##Realize as migrações do banco de dados:**
 python manage.py migrate
-Inicie o servidor:
 
-bash
-Copiar código
+**##Inicie o servidor:**
 python manage.py runserver
 Acesse a API em http://127.0.0.1:8000/.
 
-Uso
+**##Uso**
 A API fornece endpoints para realizar operações CRUD (Create, Read, Update, Delete) em cada modelo.
 A documentação dos endpoints está disponível na interface do navegador ao acessar o Django REST Framework.
-Contribuição
+
+**##Contribuição**
 Contribuições são bem-vindas! Sinta-se à vontade para abrir um issue ou enviar um pull request.
