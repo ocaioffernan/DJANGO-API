@@ -1,5 +1,5 @@
 from .serializers import LoteSerializer, ProdutoSerializer, FornecedorSerializer, ClienteSerializer, ItemVendaSerializer, EstoqueMovimentacaoSerializer, VendaSerializer
-from .models import Lote, Produto, Fornecedor, Cliente, ItemVenda, EstoqueMovimentacao, Venda
+from .models import Lote, Produto, Fornecedor, Cliente, ItemVenda, EstoqueMovimentacao, Venda, CategoriaProduto, Promocao, HistoricoPreco, ConfiguracaoPDV, LogAuditoria
 from rest_framework import generics
 from django.shortcuts import render
 
@@ -66,6 +66,52 @@ class ItemVendaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 class EstoqueMovimentacaoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = EstoqueMovimentacao.objects.all()
     serializer_class = EstoqueMovimentacaoSerializer
+
+
+
+class CategoriaProdutoListCreate(generics.ListCreateAPIView):
+    queryset = CategoriaProduto.objects.all()
+    serializer_class = CategoriaProdutoSerializer
+
+class CategoriaProdutoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CategoriaProduto.objects.all()
+    serializer_class = CategoriaProdutoSerializer
+
+
+class PromocaoListCreate(generics.ListCreateAPIView):
+    queryset = Promocao.objects.all()
+    serializer_class = PromocaoSerializer
+
+class PromocaoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Promocao.objects.all()
+    serializer_class = PromocaoSerializer
+
+
+class HistoricoPrecoListCreate(generics.ListCreateAPIView):
+    queryset = HistoricoPreco.objects.all()
+    serializer_class = HistoricoPrecoSerializer
+
+class HistoricoPrecoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = HistoricoPreco.objects.all()
+    serializer_class = HistoricoPrecoSerializer
+
+
+class ConfiguracaoPDVListCreate(generics.ListCreateAPIView):
+    queryset = ConfiguracaoPDV.objects.all()
+    serializer_class = ConfiguracaoPDVSerializer
+
+class ConfiguracaoPDVRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ConfiguracaoPDV.objects.all()
+    serializer_class = ConfiguracaoPDVSerializer
+
+
+class LogAuditoriaListCreate(generics.ListCreateAPIView):
+    queryset = LogAuditoria.objects.all()
+    serializer_class = LogAuditoriaSerializer
+
+class LogAuditoriaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = LogAuditoria.objects.all()
+    serializer_class = LogAuditoriaSerializer
 
 def rotas(request):
     return render(request, 'index.html')

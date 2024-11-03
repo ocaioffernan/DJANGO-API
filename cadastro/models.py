@@ -111,3 +111,50 @@ class EstoqueMovimentacao(models.Model):
 
     def __str__(self):
         return f"Movimentação {self.tipo} - Produto {self.produto.nome}"
+
+
+class CategoriaProduto(models.Model):
+    nome = models.CharField(max_length=100, unique=True)
+    descricao = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.nome
+
+
+class Promocao(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    desconto_percentual = models.DecimalField(max_digits=5, decimal_places=2)
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+
+    def __str__(self):
+        return f"Promoção {self.desconto_percentual}% - {self.produto.nome}"
+
+
+class HistoricoPreco(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    preco_antigo = models.DecimalField(max_digits=10, decimal_places=2)
+    preco_novo = models.DecimalField(max_digits=10, decimal_places=2)
+    data_alteracao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Histórico {self.produto.nome} - {self.data_alteracao}"
+
+
+class ConfiguracaoPDV(models.Model):
+    mensagem_boas_vindas = models.CharField(max_length=255)
+    impressora_conectada = models.BooleanField(default=False)
+    logo = models.ImageField(upload_to='logos/', blank=True, null=True)
+
+    def __str__(self):
+        return "Configuração PDV"
+
+
+class LogAuditoria(models.Model):
+    usuario = models.ForeignKey('Usuario', on_delete=models.SET_NULL, null=True)
+    acao = models.CharField(max_length=255)
+    data_hora = models.DateTimeField(auto_now_add=True)
+    detalhes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Ação: {self.acao} - {self.data_hora}"

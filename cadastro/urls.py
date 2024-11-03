@@ -19,5 +19,15 @@ urlpatterns = [
     path('estoque_mov/<int:pk>', EstoqueMovimentacaoRetrieveUpdateDestroy.as_view(), name='estoquemovimentacao-retrieve'),
     path('vendas/', VendaListCreate.as_view(), name='vendas-list-create'),
     path('vendas/<int:pk>', VendaRetrieveUpdateDestroy.as_view(), name='cliente-retrieve'),
+    path('categorias/', CategoriaProdutoListCreate.as_view(), name='categoria-list-create'),
+    path('categorias/<int:pk>/', CategoriaProdutoRetrieveUpdateDestroy.as_view(), name='categoria-retrieve'),
+    path('promocoes/', PromocaoListCreate.as_view(), name='promocao-list-create'),
+    path('promocoes/<int:pk>/', PromocaoRetrieveUpdateDestroy.as_view(), name='promocao-retrieve'),
+    path('historico_preco/', HistoricoPrecoListCreate.as_view(), name='historico-preco-list-create'),
+    path('historico_preco/<int:pk>/', HistoricoPrecoRetrieveUpdateDestroy.as_view(), name='historico-preco-retrieve'),
+    path('configuracoes-pdv/', ConfiguracaoPDVListCreate.as_view(), name='configuracao-pdv-list-create'),
+    path('configuracoes-pdv/<int:pk>/', ConfiguracaoPDVRetrieveUpdateDestroy.as_view(), name='configuracao-pdv-retrieve'),
+    path('log-auditoria/', LogAuditoriaListCreate.as_view(), name='log-auditoria-list-create'),
+    path('log-auditoria/<int:pk>/', LogAuditoriaRetrieveUpdateDestroy.as_view(), name='log-auditoria-retrieve'),
     path('', rotas, name='rotas')
 ]

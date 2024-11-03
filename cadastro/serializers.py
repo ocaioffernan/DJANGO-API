@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Produto, Fornecedor, Cliente, Lote, ItemVenda, EstoqueMovimentacao, Venda
+from .models import Produto, Fornecedor, Cliente, Lote, ItemVenda, EstoqueMovimentacao, Venda,  CategoriaProduto, Promocao, HistoricoPreco, ConfiguracaoPDV, LogAuditoria
 
 
 
@@ -44,3 +44,29 @@ class VendaSerializer(serializers.ModelSerializer):
         model = Venda
         fields = ['metodo_pagamento', 'cliente', 'total']
         read_only_fields = ['total']
+
+
+class CategoriaProdutoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CategoriaProduto
+        fields = '__all__'
+
+class PromocaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Promocao
+        fields = '__all__'
+
+class HistoricoPrecoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HistoricoPreco
+        fields = '__all__'
+
+class ConfiguracaoPDVSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConfiguracaoPDV
+        fields = '__all__'
+
+class LogAuditoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LogAuditoria
+        fields = '__all__'
