@@ -1,7 +1,29 @@
 from rest_framework import serializers
 from .models import Produto, Fornecedor, Cliente, Lote, ItemVenda, EstoqueMovimentacao, Venda,  CategoriaProduto, Promocao, HistoricoPreco, ConfiguracaoPDV, LogAuditoria
+from django.contrib.auth.models import User
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'is_active']  # Inclua 'is_active' se necessário
 
+    def create(self, validated_data):
+        # Cria o usuário com hash na senha
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        # Atualiza o usuário, tratando a senha corretamente
+        password = validated_data.pop('password', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if password:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
 class ProdutoSerializer(serializers.ModelSerializer):
     class Meta:

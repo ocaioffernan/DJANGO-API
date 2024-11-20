@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 class Fornecedor(models.Model):
     razaoSocial = models.CharField(max_length=100)
@@ -77,7 +78,7 @@ class Venda(models.Model):
 
 class ItemVenda(models.Model):
     venda = models.ForeignKey(Venda, related_name='itens', on_delete=models.CASCADE)
-    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.IntegerField()
     desconto = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2) # omitir no serializer
@@ -151,7 +152,7 @@ class ConfiguracaoPDV(models.Model):
 
 
 class LogAuditoria(models.Model):
-    usuario = models.ForeignKey('Usuario', on_delete=models.SET_NULL, null=True)
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     acao = models.CharField(max_length=255)
     data_hora = models.DateTimeField(auto_now_add=True)
     detalhes = models.TextField(blank=True, null=True)
