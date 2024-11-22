@@ -64,7 +64,7 @@ class EstoqueMovimentacaoSerializer(serializers.ModelSerializer):
 class VendaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venda
-        fields = ['metodo_pagamento', 'cliente', 'total', 'data_venda']
+        fields = ['id','metodo_pagamento', 'cliente', 'total', 'data_venda']
         read_only_fields = ['total']
 
 
